@@ -48,6 +48,36 @@
         font-weight: 800;
       }
 
+      #channel {
+        margin-bottom: 8px;
+      }
+
+      #dev-badge {
+        display: inline-block;
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      }
+
+      #prod-badge {
+        display: inline-block;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      }
+
       #date {
         color: gray;
         font-size: 18px;
@@ -127,14 +157,17 @@
     <div id="wrap">
       <main>
           <header>
-            <div id="release">{{account}}/<span id="repo">{{repository}}</span></div>
+            <div id="release">
+              <div id="channel">{{#if (eq channel "development")}}<span id="dev-badge">DEV</span>{{else}}<span id="prod-badge">PROD</span>{{/if}}</div>
+              {{account}}/<span id="repo">{{repository}}</span>
+            </div>
             <div id="date">{{date}}</div>
           </header>
 
           <div id="list">
             {{#each files}}
               <div class="item">
-                <div class="fileType">{{@key}}: <span class="url"><a href={{this.url}}>/latest/{{@key}}</a></span></div>
+                <div class="fileType">{{@key}}: <span class="url"><a href="/{{#if (eq channel "development")}}dev{{else}}production{{/if}}/download/{{@key}}">{{@key}}</a></span></div>
                 <div class="size">{{this.size}} MB</div>
               </div>
             {{/each}}
